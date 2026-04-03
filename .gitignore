@@ -1,0 +1,9 @@
+target/
+*.class
+*.jar
+__pycache__/
+*.pyc
+.venv/
+output/
+.vscode/
+.DS_Store

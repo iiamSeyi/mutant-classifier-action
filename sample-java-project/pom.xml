@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>sample-java-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- PIT version - keep this pinned so builds are reproducible -->
+        <pitest.version>1.15.3</pitest.version>
+        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- JUnit 5 - PIT needs the junit5 plugin to discover these tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Surefire: runs JUnit 5 tests with mvn test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
+
+            <!--
+                PIT Mutation Testing Plugin
+                ===========================
+                Key config decisions explained:
+
+                targetClasses   - which classes PIT mutates (your production code)
+                targetTests     - which test classes PIT runs (glob pattern)
+                outputFormats   - XML is machine-readable (our classifier reads it)
+                                  HTML is human-readable (uploaded as artifact)
+                timestampedReports - false means output always goes to the same
+                                  directory, making it easy to find in CI
+                mutators        - DEFAULTS is a safe starting set. Later we can
+                                  tune to match operators from the paper (ABS, UOI,
+                                  AOR, ROR). See:
+                                  https://pitest.org/quickstart/mutators/
+                threads         - parallel execution speeds things up in CI
+                withHistory     - when true, PIT skips mutants it already analyzed
+                                  (uses historyInputFile). Great for PR workflows
+                                  where only changed code needs re-analysis.
+            -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest.version}</version>
+
+                <!-- Required: tells PIT how to discover JUnit 5 tests -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>${pitest-junit5-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <targetClasses>
+                        <param>com.example.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.example.*</param>
+                    </targetTests>
+
+                    <!-- Both formats: XML for our classifier, HTML for humans -->
+                    <outputFormats>
+                        <param>XML</param>
+                        <param>HTML</param>
+                    </outputFormats>
+
+                    <!-- Fixed path makes CI artifact upload simpler -->
+                    <timestampedReports>false</timestampedReports>
+                    <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
+
+                    <mutators>
+                        <mutator>DEFAULTS</mutator>
+                    </mutators>
+
+                    <!-- Run 2 threads in CI - adjust based on runner specs -->
+                    <threads>2</threads>
+
+                    <!--
+                        History file support for incremental analysis.
+                        When enabled, PIT only re-analyzes mutants affected by
+                        changed code. Critical for keeping CI fast on large projects.
+                        The workflow caches this file between runs.
+                    -->
+                    <historyInputFile>${project.build.directory}/pit-history.bin</historyInputFile>
+                    <historyOutputFile>${project.build.directory}/pit-history.bin</historyOutputFile>
+
+                    <!-- Export mutant details - needed for our classifier -->
+                    <exportLineCoverage>true</exportLineCoverage>
+                    <verbose>false</verbose>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
