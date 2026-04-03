@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+# Unset JAVA_HOME injected by the GitHub Actions runner — it points to the
+# runner's JDK path which doesn't exist inside this container. The container
+# has its own JDK from the eclipse-temurin base image, which Maven will find
+# automatically via PATH without needing JAVA_HOME set.
+unset JAVA_HOME
+unset JAVA_HOME_17_X64
+
 PROJECT_DIR="${GITHUB_WORKSPACE}/${WORKING_DIR:-.}"
 
 echo "::group::Setup"
