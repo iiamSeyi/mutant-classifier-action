@@ -66,6 +66,13 @@ class CalculatorTest {
     }
 
     @Test
+    void testAbs() {
+        assertEquals(5, calc.abs(-5));
+        assertEquals(3, calc.abs(3));
+        assertEquals(0, calc.abs(0));
+    }
+
+    @Test
     void testFactorial() {
         assertEquals(1,   calc.factorial(0));
         assertEquals(1,   calc.factorial(1));
