@@ -1,0 +1,235 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  ZONE 1 — Local Development (green container)                  -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="10" value="Zone 1 — Local Development" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;fontColor=#1a1a1a;" vertex="1" parent="1">
+      <mxGeometry x="40" y="40" width="680" height="440" as="geometry" />
+    </mxCell>
+
+    <!-- Developer -->
+    <mxCell id="11" value="Developer" style="shape=mxgraph.general.person;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="40" y="80" width="80" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- Calculator.java -->
+    <mxCell id="12" value="Calculator.java&#xa;(9 methods)" style="shape=document;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="200" y="60" width="120" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- CalculatorTest.java -->
+    <mxCell id="13" value="CalculatorTest.java&#xa;(11 test methods)" style="shape=document;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="200" y="140" width="120" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- mvn test -->
+    <mxCell id="14" value="./mvnw test&#xa;(JUnit 5 via Surefire)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="390" y="60" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- test output -->
+    <mxCell id="15" value="Terminal: BUILD SUCCESS&#xa;Tests run: 11, Failures: 0" style="shape=note;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;fontColor=#333333;" vertex="1" parent="10">
+      <mxGeometry x="390" y="150" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- mvn pitest -->
+    <mxCell id="16" value="./mvnw org.pitest:pitest-maven&#xa;:mutationCoverage" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="390" y="240" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- PIT outputs -->
+    <mxCell id="17" value="target/pit-reports/&#xa;mutations.xml&#xa;+ HTML report" style="shape=document;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="200" y="300" width="130" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- PIT Results box -->
+    <mxCell id="18" value="PIT Results:&#xa;36 mutants generated&#xa;31 killed | 5 survived&#xa;Raw score: 86%" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="10">
+      <mxGeometry x="390" y="330" width="160" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Survivors detail -->
+    <mxCell id="19" value="5 Survivors:&#xa;ConditionalsBoundary (4)&#xa;RemoveConditional_EQUAL_ELSE (1)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="10">
+      <mxGeometry x="565" y="330" width="95" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Edges in Zone 1 -->
+    <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="11" target="12" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="11" target="13" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="12" target="14" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="13" target="14" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="14" target="15" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="25" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="14" target="16" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="26" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="16" target="17" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="27" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="16" target="18" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="28" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="18" target="19" parent="10">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  ZONE 2 — GitHub Actions CI (blue container)                   -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="50" value="Zone 2 — GitHub Actions CI (triggered on push to main)" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;fontColor=#1a1a1a;" vertex="1" parent="1">
+      <mxGeometry x="760" y="40" width="860" height="800" as="geometry" />
+    </mxCell>
+
+    <!-- Push trigger -->
+    <mxCell id="51" value="git push origin main&#xa;(Developer triggers CI)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="40" y="60" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Workflow trigger -->
+    <mxCell id="52" value="mutation-ci.yml&#xa;Workflow triggered&#xa;(on: push to main)" style="shape=document;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="260" y="55" width="140" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Docker build -->
+    <mxCell id="53" value="Docker Build&#xa;(Dockerfile)" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="460" y="60" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Docker contents -->
+    <mxCell id="54" value="Container Contents:&#xa;• eclipse-temurin:17-jdk-jammy&#xa;• Maven (apt-get)&#xa;• Python 3.11 + venv&#xa;• lxml 5.1.0, rich 13.7.0&#xa;• classify.py&#xa;• entrypoint.sh" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="50">
+      <mxGeometry x="460" y="150" width="160" height="120" as="geometry" />
+    </mxCell>
+
+    <!-- entrypoint.sh container -->
+    <mxCell id="55" value="entrypoint.sh — Pipeline Orchestrator" style="swimlane;startSize=25;fillColor=#f0f0f0;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="50">
+      <mxGeometry x="40" y="320" width="780" height="320" as="geometry" />
+    </mxCell>
+
+    <!-- Step 1: mvn test -->
+    <mxCell id="56" value="1. mvn test&#xa;(--no-transfer-progress)" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="55">
+      <mxGeometry x="30" y="50" width="140" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Step 1 pass/fail -->
+    <mxCell id="57" value="Tests pass?&#xa;(fail fast if not)" style="rhombus;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="55">
+      <mxGeometry x="210" y="40" width="120" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Step 2: mvn pitest -->
+    <mxCell id="58" value="2. mvn pitest:&#xa;mutationCoverage" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="55">
+      <mxGeometry x="380" y="50" width="140" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Step 3: classify.py -->
+    <mxCell id="59" value="3. python3 classify.py&#xa;--pit-xml mutations.xml&#xa;--confidence-threshold 0.90" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" vertex="1" parent="55">
+      <mxGeometry x="30" y="180" width="200" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- classify.py internals -->
+    <mxCell id="60" value="classify.py internals:&#xa;parse_pit_xml()&#xa;classify_mutant() ← STUB Phase 1&#xa;calculate_scores()&#xa;write_github_annotations()&#xa;write_json_report()&#xa;write_results_env()" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="55">
+      <mxGeometry x="270" y="165" width="200" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- Step 4: publish -->
+    <mxCell id="61" value="4. Publish Results&#xa;(source results.env&#xa;→ GITHUB_OUTPUT&#xa;→ GITHUB_STEP_SUMMARY)" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="55">
+      <mxGeometry x="510" y="165" width="240" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Edges inside entrypoint.sh -->
+    <mxCell id="62" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="56" target="57" parent="55">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="63" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="57" target="58" parent="55">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="64" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="58" target="59" parent="55">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="65" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="59" target="60" parent="55">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="66" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="60" target="61" parent="55">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Outputs box -->
+    <mxCell id="70" value="Action Outputs (GITHUB_OUTPUT)&#xa;raw-mutation-score: 0.86&#xa;adjusted-mutation-score: 0.86&#xa;equivalent-mutants-found: 0&#xa;total-mutants: 36" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="40" y="680" width="220" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Artifacts box -->
+    <mxCell id="71" value="Artifacts (upload-artifact@v4)&#xa;pit-html-report-{run}/ ← PIT HTML&#xa;mutant-classifier-report-{run}/&#xa;  mutation-report.json&#xa;  results.env" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="290" y="680" width="250" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Step Summary box -->
+    <mxCell id="72" value="GitHub Step Summary&#xa;## Mutation Testing Results&#xa;| Metric | Value |&#xa;| Total mutants | 36 |&#xa;| Raw score | 0.86 |&#xa;| Adjusted score | 0.86 |" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="50">
+      <mxGeometry x="570" y="680" width="250" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Edges Zone 2 top -->
+    <mxCell id="80" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="51" target="52" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="81" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="52" target="53" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="82" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="53" target="54" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="83" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="54" target="55" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="84" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="55" target="70" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="85" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="55" target="71" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="86" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="55" target="72" parent="50">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  Cross-zone arrow: push triggers CI                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="90" value="git push" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontStyle=1;fontSize=12;" edge="1" source="10" target="50" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--  Key files legend (orange)                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="100" value="Key Files" style="swimlane;startSize=25;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="520" width="680" height="200" as="geometry" />
+    </mxCell>
+
+    <mxCell id="101" value="action.yml&#xa;Inputs: working-directory,&#xa;confidence-threshold,&#xa;fail-below-score, maven-args&#xa;Outputs: raw/adjusted scores,&#xa;equiv count, total mutants" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="100">
+      <mxGeometry x="20" y="40" width="150" height="110" as="geometry" />
+    </mxCell>
+
+    <mxCell id="102" value="Dockerfile&#xa;Stage 1 (builder):&#xa;  Python deps → /opt/venv&#xa;Stage 2 (runtime):&#xa;  Java 17 + Maven + Python&#xa;  copy venv from builder" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="100">
+      <mxGeometry x="185" y="40" width="150" height="110" as="geometry" />
+    </mxCell>
+
+    <mxCell id="103" value="entrypoint.sh&#xa;1. unset JAVA_HOME&#xa;2. check pom.xml exists&#xa;3. mvn test (fail-fast)&#xa;4. mvn pitest&#xa;5. python3 classify.py&#xa;6. write GITHUB_OUTPUT" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="100">
+      <mxGeometry x="350" y="40" width="150" height="110" as="geometry" />
+    </mxCell>
+
+    <mxCell id="104" value="classify.py&#xa;Phase 1: stub classifier&#xa;(always NON_EQUIVALENT)&#xa;Phase 3: Bi-GRU/LSTM/RNN&#xa;with Word2Vec AST&#xa;embeddings (javalang)" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="100">
+      <mxGeometry x="515" y="40" width="150" height="110" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

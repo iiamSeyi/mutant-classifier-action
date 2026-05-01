@@ -51,23 +51,6 @@ def parse_pit_xml(xml_path: str) -> list[Mutant]:
     """
     Parse PIT's mutations.xml file into a list of Mutant objects.
 
-    PIT's XML structure looks like:
-        <mutations>
-            <mutation detected="true" status="KILLED" numberOfTestsRun="3">
-                <sourceFile>Calculator.java</sourceFile>
-                <mutatedClass>com.example.Calculator</mutatedClass>
-                <mutatedMethod>add</mutatedMethod>
-                <mutatedMethodDesc>(II)I</mutatedMethodDesc>
-                <lineNumber>14</lineNumber>
-                <mutator>org.pitest.mutationtest.engine.gregor.mutators.MathMutator</mutator>
-                <index>0</index>
-                <block>0</block>
-                <killingTest>com.example.CalculatorTest.[engine:junit-jupiter]/...</killingTest>
-                <description>Replaced integer addition with subtraction</description>
-            </mutation>
-            ...
-        </mutations>
-
     We focus on SURVIVED and NO_COVERAGE mutants — these are the ones the
     classifier needs to examine. KILLED mutants are not equivalent by definition
     (a test killed them, proving behavioral difference).
@@ -212,10 +195,6 @@ def calculate_scores(mutants: list[Mutant], threshold: float) -> tuple[float, fl
 
     Raw score    = killed / (total - no_coverage)   [standard PIT metric]
     Adjusted     = killed / (total - no_coverage - equivalent_detected)
-
-    The adjusted score is the key contribution of this tool: by removing
-    equivalent mutants from the denominator, it gives a more accurate picture
-    of how well the test suite covers real behavioral differences.
     """
     killed = sum(1 for m in mutants if m.pit_status == "KILLED")
     no_coverage = sum(1 for m in mutants if m.pit_status == "NO_COVERAGE")

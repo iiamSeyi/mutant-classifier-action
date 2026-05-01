@@ -1,14 +1,4 @@
-# .github/workflows/mutation-ci.yml
-# ==================================
-# This workflow lives IN the action repo and tests the action against the
-# sample-java-project/ folder in the same repo.
-#
-# The key: `uses: ./` means "use the action.yml defined right here"
-# instead of fetching it from a remote repo. This is the standard pattern
-# for testing a GitHub Action during development.
-#
-# When you publish the action and someone else wants to use it, they would
-# write `uses: your-org/mutant-classifier-action@v1` in their own repo.
+
 
 name: Test Mutation Classifier Action
 
@@ -53,8 +43,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
-      # `uses: ./` means "run the action.yml in the root of this repo"
-      # working-directory points into the sample project subfolder
       - name: Run mutation testing and classify equivalent mutants
         id: mutant-classifier
         uses: ./
@@ -79,7 +67,6 @@ jobs:
           path: sample-java-project/target/mutant-classifier-report/
           retention-days: 30
 
-      # Echo the step outputs so we can see them in the CI log during development
       - name: Print classifier outputs
         if: always()
         run: |

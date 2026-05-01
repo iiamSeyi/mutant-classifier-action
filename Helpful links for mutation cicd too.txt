@@ -1,0 +1,11 @@
+Helpful links for mutation ci/cd tool research
+
+https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#adding-a-job-summary
+
+https://onlinelibrary.wiley.com/doi/epdf/10.1002/stvr.70004
+
+https://maven.apache.org/guides/getting-started/
+
+https://docs.docker.com/get-started/
+
+https://docs.github.com/en/actions

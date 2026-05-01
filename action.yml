@@ -1,8 +1,5 @@
 # action.yml
 # ============
-# This file is what makes this repo a GitHub Action.
-# Any repo can reference it with: uses: your-org/mutant-classifier-action@v1
-#
 # GitHub reads this file to know:
 #   - What inputs the action accepts (and their defaults)
 #   - What outputs it produces (for downstream steps to read)

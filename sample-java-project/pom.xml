@@ -11,11 +11,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- PIT version - keep this pinned so builds are reproducible -->
+        <!-- PIT version - pinned so builds are reproducible -->
         <pitest.version>1.15.3</pitest.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
     </properties>
@@ -45,7 +45,7 @@
                 ===========================
                 Key config decisions explained:
 
-                targetClasses   - which classes PIT mutates (your production code)
+                targetClasses   - which classes PIT mutates (production code)
                 targetTests     - which test classes PIT runs (glob pattern)
                 outputFormats   - XML is machine-readable (our classifier reads it)
                                   HTML is human-readable (uploaded as artifact)
