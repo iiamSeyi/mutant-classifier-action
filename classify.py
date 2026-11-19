@@ -14,12 +14,14 @@ Usage:
         --pit-xml path/to/mutations.xml \\
         --output-dir path/to/output/ \\
         --confidence-threshold 0.90 \\
-        --fail-below 0.70
+        --fail-below 0.70 \\
+        --source-root sample-java-project/src/main/java
 """
 
 import argparse
 import json
 import os
+import posixpath
 import sys
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, asdict
@@ -122,12 +124,30 @@ def classify_mutant(mutant: Mutant) -> tuple[str, float, str]:
 
 # ── Reporting ─────────────────────────────────────────────────────────────────
 
-def write_github_annotations(mutants: list[Mutant], threshold: float):
+def annotation_path(mutant: Mutant, source_root: str) -> str:
+    """
+    Build the repo-relative path GitHub needs to attach an annotation to a file.
+
+    PIT only reports the bare file name (e.g. "Calculator.java"), so we rebuild
+    the path from the package in mutated_class:
+        source_root="sample-java-project/src/main/java",
+        mutated_class="com.example.Calculator"
+        -> "sample-java-project/src/main/java/com/example/Calculator.java"
+    """
+    package_dir = ""
+    if "." in mutant.mutated_class:
+        package_dir = mutant.mutated_class.rsplit(".", 1)[0].replace(".", "/")
+    path = posixpath.normpath(posixpath.join(source_root or ".", package_dir, mutant.source_file))
+    return path[2:] if path.startswith("./") else path
+
+
+def write_github_annotations(mutants: list[Mutant], threshold: float, source_root: str = ""):
     """
     Emit GitHub workflow commands to annotate files in the PR diff.
 
     Format: ::warning file=<path>,line=<n>::<message>
     These appear as inline comments on changed files in the PR view.
+    <path> must be relative to the repository root - see annotation_path().
 
     We annotate:
     - Survived mutants (test coverage gap)
@@ -135,12 +155,13 @@ def write_github_annotations(mutants: list[Mutant], threshold: float):
     """
     for m in mutants:
         if m.pit_status == "SURVIVED":
+            file_path = annotation_path(m, source_root)
             if m.classifier_label == "EQUIVALENT" and m.classifier_confidence >= threshold:
-                print(f"::notice file={m.source_file},line={m.line_number}::"
+                print(f"::notice file={file_path},line={m.line_number}::"
                       f"[Equivalent mutant] {m.mutation_operator}: {m.description} "
                       f"(confidence: {m.classifier_confidence:.0%}) - excluded from score")
             elif m.classifier_label == "NON_EQUIVALENT":
-                print(f"::warning file={m.source_file},line={m.line_number}::"
+                print(f"::warning file={file_path},line={m.line_number}::"
                       f"[Surviving mutant] {m.mutation_operator}: {m.description} "
                       f"- consider adding a test to kill this mutant")
 
@@ -226,6 +247,9 @@ def main():
     parser.add_argument("--confidence-threshold", type=float, default=0.90)
     parser.add_argument("--fail-below", type=float, default=0.0,
                         help="Fail if adjusted score is below this value")
+    parser.add_argument("--source-root", default="",
+                        help="Repo-relative path to the Java source root, used for "
+                             "PR annotations (e.g. sample-java-project/src/main/java)")
     args = parser.parse_args()
 
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
@@ -259,7 +283,7 @@ def main():
     print(f"{'='*50}\n")
 
     # 5. Write GitHub annotations (inline PR comments)
-    write_github_annotations(mutants, args.confidence_threshold)
+    write_github_annotations(mutants, args.confidence_threshold, args.source_root)
 
     # 6. Write reports
     write_json_report(mutants, args.output_dir, raw_score, adjusted_score,

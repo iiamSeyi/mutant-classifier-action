@@ -58,13 +58,23 @@ echo "::group::Running equivalent mutant classifier"
 REPORT_OUTPUT_DIR="${PROJECT_DIR}/target/mutant-classifier-report"
 mkdir -p "${REPORT_OUTPUT_DIR}"
 
+# Repo-relative paths. GitHub needs these for PR annotations, and callers need
+# them for upload-artifact (the container path /github/workspace/... means
+# nothing on the runner).
+REL_PROJECT_DIR="${WORKING_DIR:-.}"
+REL_REPORT_DIR="${REL_PROJECT_DIR%/}/target/mutant-classifier-report"
+REL_REPORT_DIR="${REL_REPORT_DIR#./}"
+
+# Capture the exit code instead of letting `set -e` abort the script here:
+# a failed quality gate (exit 1) must still publish outputs and the summary.
+CLASSIFIER_EXIT=0
 python3 /action/classify.py \
     --pit-xml "${PIT_XML}" \
     --output-dir "${REPORT_OUTPUT_DIR}" \
     --confidence-threshold "${CONFIDENCE_THRESHOLD}" \
-    --fail-below "${FAIL_BELOW_SCORE}"
-
-CLASSIFIER_EXIT=$?
+    --fail-below "${FAIL_BELOW_SCORE}" \
+    --source-root "${REL_PROJECT_DIR%/}/src/main/java" \
+    || CLASSIFIER_EXIT=$?
 echo "::endgroup::"
 
 RESULTS_ENV="${REPORT_OUTPUT_DIR}/results.env"
@@ -77,7 +87,7 @@ if [ -f "${RESULTS_ENV}" ]; then
         echo "adjusted-mutation-score=${ADJUSTED_SCORE:-0}"
         echo "equivalent-mutants-found=${EQUIV_COUNT:-0}"
         echo "total-mutants=${TOTAL_MUTANTS:-0}"
-        echo "report-path=${REPORT_OUTPUT_DIR}"
+        echo "report-path=${REL_REPORT_DIR}"
     } >> "${GITHUB_OUTPUT}"
 
     {

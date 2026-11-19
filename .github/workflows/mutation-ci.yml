@@ -43,6 +43,18 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
+      # PIT's history file lets it skip re-analysing mutants in unchanged code
+      # (historyInputFile/historyOutputFile in pom.xml). Caches are immutable,
+      # so each run saves under a new key and restores the newest prior one.
+      - name: Cache PIT history
+        uses: actions/cache@v4
+        with:
+          path: sample-java-project/target/pit-history.bin
+          key: pit-history-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            pit-history-${{ github.ref_name }}-
+            pit-history-
+
       - name: Run mutation testing and classify equivalent mutants
         id: mutant-classifier
         uses: ./
@@ -64,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mutant-classifier-report-${{ github.run_number }}
-          path: sample-java-project/target/mutant-classifier-report/
+          path: ${{ steps.mutant-classifier.outputs.report-path || 'sample-java-project/target/mutant-classifier-report/' }}
           retention-days: 30
 
       - name: Print classifier outputs

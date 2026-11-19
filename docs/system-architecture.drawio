@@ -107,7 +107,7 @@
     </mxCell>
 
     <!-- Docker contents -->
-    <mxCell id="54" value="Container Contents:&#xa;• eclipse-temurin:17-jdk-jammy&#xa;• Maven (apt-get)&#xa;• Python 3.11 + venv&#xa;• lxml 5.1.0, rich 13.7.0&#xa;• classify.py&#xa;• entrypoint.sh" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="50">
+    <mxCell id="54" value="Container Contents:&#xa;• eclipse-temurin:17-jdk-jammy&#xa;• Maven (apt-get)&#xa;• Python 3.11 + venv&#xa;• Python stdlib only (Phase 1)&#xa;• classify.py&#xa;• entrypoint.sh" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="50">
       <mxGeometry x="460" y="150" width="160" height="120" as="geometry" />
     </mxCell>
 
